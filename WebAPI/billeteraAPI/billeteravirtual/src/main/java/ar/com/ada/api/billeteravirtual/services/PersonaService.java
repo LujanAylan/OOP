@@ -16,7 +16,6 @@ public class PersonaService {
     PersonaRepository repo;
 
     public List<Persona> getPersonas() {
-
         return repo.findAll();
     }
 
@@ -28,5 +27,5 @@ public class PersonaService {
             return p.get();
         return null;
     }
-    
+
 }

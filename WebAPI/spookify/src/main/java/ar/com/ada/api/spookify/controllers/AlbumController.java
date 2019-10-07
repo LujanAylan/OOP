@@ -39,11 +39,11 @@ public class AlbumController {
         canciones.add(c);
 
         a.setCanciones(canciones);
-        
+
         albumes.add(a);
 
         canciones = new ArrayList<Cancion>(); 
-        
+
         a = new Album();
         a.setArtista("Oasis");
         a.setAlbum("Definitely Maybe");
