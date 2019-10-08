@@ -33,7 +33,13 @@ public class Cuenta {
     private List<Movimiento> movimientos = new ArrayList<Movimiento>();
 
     public Cuenta(){
-        
+    }
+
+    public Cuenta(Billetera b, String moneda) {
+
+        this.moneda = moneda;
+        b.getCuentas().add(this);
+
     }
 
     public List<Movimiento> getMovimientos() {
