@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ar.com.ada.api.billeteravirtual.entities.Billetera;
 import ar.com.ada.api.billeteravirtual.entities.Cuenta;
 import ar.com.ada.api.billeteravirtual.entities.Movimiento;
-import ar.com.ada.api.billeteravirtual.entities.Persona;
 import ar.com.ada.api.billeteravirtual.entities.Usuario;
 import ar.com.ada.api.billeteravirtual.repo.BilleteraRepository;
 
@@ -34,10 +33,6 @@ public class BilleteraService {
            return b.get();
        }
        return null;
-    }
-
-    public Billetera buscarPorPersona(Persona p) {
-        return repo.findByPersona(p);
     }
 
     public double getSaldo(int id) {
@@ -71,9 +66,9 @@ public class BilleteraService {
     public void transferirDinero(double importe, int id, String conceptoDeOperacion, String tipoDeOperacion) {
 
         Usuario usuarioDestino = usuarioService.buscarPorId(id);
-        Usuario usuarioOrigen = usuarioService.buscarPorId(78);
+        Usuario usuarioOrigen = usuarioService.buscarPorId(id);
 
-        Billetera bOrigen = buscarBilletera(usuarioOrigen);
+        Billetera billeteraOrigen = buscarBilletera(usuarioOrigen);
 
         Movimiento transferencia = new Movimiento();
         transferencia.setImporte(-(importe));
@@ -91,10 +86,10 @@ public class BilleteraService {
 
         Movimiento recibirDinero = new Movimiento();
         recibirDinero.setImporte(importe);
-        recibirDinero.setDeUsuario(bOrigen.getPersona().getUsuario().getUsuarioId());
+        recibirDinero.setDeUsuario(billeteraOrigen.getPersona().getUsuario().getUsuarioId());
         recibirDinero.setaUsuario(usuarioDestino.getUsuarioId());
         recibirDinero.setCuentaDestino(usuarioDestino.getPersona().getBilletera().getBilleteraId());
-        recibirDinero.setCuentaOrigen(bOrigen.getBilleteraId());
+        recibirDinero.setCuentaOrigen(billeteraOrigen.getBilleteraId());
         recibirDinero.setConceptoOperacion("Regalo");
         recibirDinero.setFecha(new Date());
         recibirDinero.setEstado(0);
