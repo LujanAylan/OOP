@@ -28,4 +28,8 @@ public class PersonaService {
         return null;
     }
 
+    public void save(Persona persona){
+        repo.save(persona);
+    }
+
 }

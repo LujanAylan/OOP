@@ -3,10 +3,8 @@ package ar.com.ada.api.billeteravirtual.controllers;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.ada.api.billeteravirtual.entities.Persona;
@@ -37,16 +35,15 @@ public class PersonaController {
         return p;
     }
 
-    @PutMapping("/personas/{id}")
+    /*@PutMapping("/personas/{id}")
     public Persona PutPersona()
     {
-		return null;    
+        return null;    
     }
-
     @DeleteMapping("/personas/{id}")
     public Persona DeletePersona()
     {
         return null;
-    }
+    }*/
 
 }

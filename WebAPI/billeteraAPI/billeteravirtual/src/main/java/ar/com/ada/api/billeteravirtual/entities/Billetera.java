@@ -43,6 +43,10 @@ public class Billetera {
         this.billeteraId = billeteraId;
     }
 
+    public Cuenta getCuenta(int index){
+        return getCuentas().get(index);
+    }
+
     public List<Cuenta> getCuentas() {
         return cuentas;
     }
@@ -61,6 +65,10 @@ public class Billetera {
     public void agregarCuentas (Cuenta cuenta) {
         cuenta.setBilletera(this);
         this.cuentas.add(cuenta); 
+    }
+
+    public void agregarMovimiento(Movimiento movimiento) {
+        this.getCuentas().get(0).agregarMovimiento(movimiento);
     }
 
 }

@@ -101,7 +101,12 @@ public class Cuenta {
     public void agregarMovimiento(Movimiento movimiento){
 		movimiento.setCuenta(this);
 		this.movimientos.add(movimiento);
-		this.setSaldo(this.getSaldo() + movimiento.getImporte());
+        this.setSaldo(this.getSaldo() + movimiento.getImporte());
+        this.setSaldoDisponible(this.getSaldo());
     }
     
+    public Usuario getUsuario(){
+        Usuario u = this.getBilletera().getPersona().getUsuario();
+        return u;   
+    }
 }

@@ -21,57 +21,7 @@ public class UsuarioService {
     UsuarioRepository repo;
 
     @Autowired
-    BilleteraService bs;
-
-    public int alta(String fullName, String dni, String email, int edad, String password, String moneda)throws PersonaEdadException {
-        Persona p = new Persona();
-        p.setNombre(fullName);
-        p.setDni(dni);
-        p.setEmail(email);
-        p.setEdad(edad);
-        
-        Usuario u = new Usuario();
-        u.setUserName(p.getEmail());
-
-        String passwordEnTextoClaro;
-        String passwordEncriptada;
-        //String passwordEnTextoClaroDesencriptado;
-
-        passwordEnTextoClaro = password;
-        passwordEncriptada = Crypto.encrypt(passwordEnTextoClaro, u.getUserName());
-        //passwordEnTextoClaroDesencriptado = Crypto.decrypt(passwordEncriptada, u.getUserName());
-
-        u.setPassword(passwordEncriptada);
-        p.setUsuario(u);
-        repo.save(u);
-
-        Billetera b = new Billetera();
-        b.setPersona(p);
-
-        Cuenta c = new Cuenta(b, moneda);
-
-        c.setBilletera(b);
-
-        bs.save(b);
-
-        return u.getUsuarioId();
-    }
-
-    public void save(Usuario usuario){
-        repo.save(usuario);
-    }
-    
-    public List<Usuario> getUsuarios() {
-        return repo.findAll();
-    }
-
-    public Usuario buscarPorUserName(String userName) {
-        return repo.findByUserName(userName);
-    }
-
-    public Usuario buscarPorEmail(String email) {
-        return repo.findByEmail(email);
-    }
+    PersonaService personaService;
 
     public Usuario buscarPorId(int id) {
         Optional<Usuario> u = repo.findById(id);
@@ -79,6 +29,53 @@ public class UsuarioService {
         if (u.isPresent())
             return u.get();
         return null;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return repo.findAll();
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        return repo.findByEmail(email);
+    }
+
+    public Usuario crearUsuario(String nombre, String dni, int edad, String email, String password) 
+    throws PersonaEdadException {
+
+        Persona p = new Persona();
+        p.setNombre(nombre);
+        p.setDni(dni);
+        p.setEdad(edad);
+        p.setEmail(email);
+
+        Usuario u = new Usuario();
+        u.setUserName(p.getEmail());
+        u.setUserEmail(p.getEmail());
+
+        String passwordEnTextoClaro;
+        String passwordEncriptada;
+
+        passwordEnTextoClaro = password;
+        passwordEncriptada = Crypto.encrypt(passwordEnTextoClaro, u.getUserName());
+
+        u.setPassword(passwordEncriptada);
+        p.setUsuario(u);
+
+        Billetera billetera = new Billetera();
+
+        Cuenta cuenta = new Cuenta();
+        cuenta.setMoneda("ARS");
+        billetera.agregarCuentas(cuenta);
+        billetera.setPersona(p);
+
+        personaService.save(p);
+
+        return u;
+
+    }
+
+    public void save(Usuario usuario){
+        repo.save(usuario);
     }
     
 }
