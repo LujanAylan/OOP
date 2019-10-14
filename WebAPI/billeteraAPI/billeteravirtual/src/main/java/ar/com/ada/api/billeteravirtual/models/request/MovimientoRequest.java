@@ -9,5 +9,7 @@ public class MovimientoRequest {
     public double importe;
     public String tipoOperacion;
     public String conceptoOperacion;
+    public String detalle;
+    public String moneda;
     
 }

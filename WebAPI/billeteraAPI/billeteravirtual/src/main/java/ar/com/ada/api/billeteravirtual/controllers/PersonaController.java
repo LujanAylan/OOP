@@ -35,15 +35,4 @@ public class PersonaController {
         return p;
     }
 
-    /*@PutMapping("/personas/{id}")
-    public Persona PutPersona()
-    {
-        return null;    
-    }
-    @DeleteMapping("/personas/{id}")
-    public Persona DeletePersona()
-    {
-        return null;
-    }*/
-
 }
