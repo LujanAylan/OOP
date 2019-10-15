@@ -31,7 +31,6 @@ public class PersonaController {
     public Persona GetPersonaById(@PathVariable int id)
     {
         Persona p = personaService.buscarPorId(id);
-        
         return p;
     }
 

@@ -36,4 +36,5 @@ public class Dinero {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+    
 }

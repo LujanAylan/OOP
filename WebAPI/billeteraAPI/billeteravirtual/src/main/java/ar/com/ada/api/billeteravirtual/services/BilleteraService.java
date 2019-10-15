@@ -3,6 +3,7 @@ package ar.com.ada.api.billeteravirtual.services;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.billeteravirtual.entities.Billetera;
 import ar.com.ada.api.billeteravirtual.entities.Cuenta;
@@ -13,6 +14,7 @@ import ar.com.ada.api.billeteravirtual.repo.BilleteraRepository;
 /**
  * BilleteraService
  */
+@Service
 public class BilleteraService {
 
     @Autowired

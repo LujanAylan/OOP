@@ -33,7 +33,7 @@ public class BilleteraController {
         MovimientoResponse r = new MovimientoResponse();
 
         billeteraService.transferirDinero(req.importe, req.billeteraId, req.conceptoOperacion, req.tipoOperacion);
-        r.message = "Transferencia realizada con éxito";
+        r.message = "La transferencia se ha realizado con éxito";
         return r;
         
     }

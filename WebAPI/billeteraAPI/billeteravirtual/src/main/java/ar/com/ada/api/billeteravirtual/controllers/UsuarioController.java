@@ -29,7 +29,6 @@ public class UsuarioController {
     public Usuario getUsuarioById(@PathVariable int id) {
 
         Usuario u = usuarioService.buscarPorId(id);
-
         return u;
     }
     

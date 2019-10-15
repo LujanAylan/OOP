@@ -3,6 +3,7 @@ package ar.com.ada.api.billeteravirtual.services;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.billeteravirtual.entities.Persona;
 import ar.com.ada.api.billeteravirtual.repo.PersonaRepository;
@@ -10,6 +11,7 @@ import ar.com.ada.api.billeteravirtual.repo.PersonaRepository;
 /**
  * PersonaService
  */
+@Service
 public class PersonaService {
 
     @Autowired
