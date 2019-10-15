@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Movimiento
  */
@@ -34,6 +36,7 @@ public class Movimiento {
     @Column(name = "cuenta_origen")
     protected int cuentaOrigen;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cuenta_id", referencedColumnName = "cuenta_id")
     private Cuenta cuenta;

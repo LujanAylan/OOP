@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -26,12 +28,14 @@ public class Billetera {
         this.billeteraId = billeteraId;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "billetera", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Cuenta> cuentas = new ArrayList<Cuenta>();
 
     @OneToOne
     @JoinColumn(name = "persona_id", referencedColumnName = "persona_id")
+    @JsonIgnore
     private Persona persona;
 
     

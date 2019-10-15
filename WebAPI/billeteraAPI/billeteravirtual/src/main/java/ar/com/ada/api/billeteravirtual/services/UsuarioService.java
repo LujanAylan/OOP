@@ -35,10 +35,6 @@ public class UsuarioService {
         return repo.findAll();
     }
 
-    public Usuario buscarPorEmail(String email) {
-        return repo.findByEmail(email);
-    }
-
     public Usuario crearUsuario(String nombre, String dni, int edad, String email, String password) 
     throws PersonaEdadException {
 

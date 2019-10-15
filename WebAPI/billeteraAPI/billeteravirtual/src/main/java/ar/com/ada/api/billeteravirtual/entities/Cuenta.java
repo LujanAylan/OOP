@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -24,10 +26,12 @@ public class Cuenta {
     @Column(name = "saldo_disponible")
     protected double saldoDisponible;
     
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "billetera_id", referencedColumnName = "billetera_id")
     private Billetera billetera;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Movimiento> movimientos = new ArrayList<Movimiento>();

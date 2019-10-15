@@ -30,6 +30,26 @@ public class PersonaService {
         return null;
     }
 
+    public List<Persona> buscarPersonasOrdenadoPorNombre() {
+
+        return repo.findAllOrderByNombre();
+    }
+
+    public Persona buscarPorNombre(String nombre) {
+
+        return repo.findByNombre(nombre);
+    }
+ 
+    public List<Persona> buscarTodosPorNombre(String nombre) {
+
+        return repo.findAllByNombreContiene(nombre);
+    }
+    
+    public Persona buscarPorDni(String dni) {
+
+        return repo.findByDni(dni);
+    }
+
     public void save(Persona persona){
         repo.save(persona);
     }
