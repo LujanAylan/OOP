@@ -1,5 +1,6 @@
 package ar.com.ada.api.billeteravirtual.entities;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import javax.persistence.*;
@@ -65,14 +66,41 @@ public class Billetera {
 
 	public void setPersona(Persona persona) {
     }
-    
-    public void agregarCuentas (Cuenta cuenta) {
+
+    public void agregarCuenta(Cuenta cuenta) {
+        this.cuentas.add(cuenta);
         cuenta.setBilletera(this);
-        this.cuentas.add(cuenta); 
     }
 
-    public void agregarMovimiento(Movimiento movimiento) {
-        this.getCuentas().get(0).agregarMovimiento(movimiento);
+    public void agregarPlata(BigDecimal plata,String moneda, String concepto, String detalle) {
+        this.buscarCuenta(moneda).agregarPlata(persona.getUsuario().getUsuarioId(), concepto, plata, detalle);
+    
+    }
+
+    public void descontarPlata(BigDecimal plata,String moneda, String concepto, String detalle) {
+        this.buscarCuenta(moneda).descontarPlata(persona.getUsuario().getUsuarioId(), concepto, plata, detalle);
+    
+    }
+
+    public void transferencia (Billetera aBilletera,BigDecimal plata,String moneda, String concepto, String detalle){
+        this.descontarPlata(plata, moneda, concepto, detalle);
+        aBilletera.agregarPlata(plata, moneda, concepto, detalle);
+    }
+
+
+    private Cuenta buscarCuenta (String moneda){
+
+        for (Cuenta c : this.cuentas) {
+            if (moneda.equals(c.getMoneda())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public BigDecimal consultarSaldoCuentaUnica()
+    {
+        return this.cuentas.get(0).getSaldo();
     }
 
 }

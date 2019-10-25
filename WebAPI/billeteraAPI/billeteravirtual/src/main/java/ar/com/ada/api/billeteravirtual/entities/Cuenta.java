@@ -1,5 +1,6 @@
 package ar.com.ada.api.billeteravirtual.entities;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import javax.persistence.*;
@@ -22,9 +23,9 @@ public class Cuenta {
     protected int cuentaId;
 
     protected String moneda;
-    protected double saldo;
+    protected BigDecimal saldo;
     @Column(name = "saldo_disponible")
-    protected double saldoDisponible;
+    protected BigDecimal saldoDisponible;
     
     @JsonIgnore
     @ManyToOne
@@ -86,31 +87,63 @@ public class Cuenta {
         this.moneda = moneda;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
-    public double getSaldoDisponible() {
+    public BigDecimal getSaldoDisponible() {
         return saldoDisponible;
     }
 
-    public void setSaldoDisponible(double saldoDisponible) {
+    public void setSaldoDisponible(BigDecimal saldoDisponible) {
         this.saldoDisponible = saldoDisponible;
     }
 
-    public void agregarMovimiento(Movimiento movimiento){
+    /*public void agregarMovimiento(Movimiento movimiento){
 		movimiento.setCuenta(this);
 		this.movimientos.add(movimiento);
         this.setSaldo(this.getSaldo() + movimiento.getImporte());
         this.setSaldoDisponible(this.getSaldo());
-    }
+    }*/
     
     public Usuario getUsuario(){
         Usuario u = this.getBilletera().getPersona().getUsuario();
         return u;   
+    }
+
+    public void agregarPlata(int usuarioDe, String concepto, BigDecimal importe, String detalle) {
+        Movimiento m = new Movimiento();
+
+        m.setCuenta(this);
+        m.setTipoOperacion("Ingreso");
+        m.setImporte(importe);
+        m.setConceptoOperacion(concepto);
+        m.setDetalle(detalle);
+        m.setFecha(new Date());
+        m.setDeUsuario(usuarioDe);
+        m.setaUsuario(usuarioDe);
+        m.setCuentaDestino(this.cuentaId);
+        m.setCuentaOrigen(this.cuentaId);
+
+        this.movimientos.add(m);
+    }
+
+    public void descontarPlata(int usuarioOr, String concepto, BigDecimal importe, String detalle) {
+        Movimiento m = new Movimiento();
+
+        m.setCuenta(this);
+        m.setTipoOperacion("Salida");
+        m.setImporte(importe.negate());
+        m.setConceptoOperacion(concepto);
+        m.setFecha(new Date());
+        m.setDeUsuario(usuarioOr);
+        m.setaUsuario(usuarioOr);
+        m.setCuentaOrigen(this.cuentaId);
+        m.setCuentaDestino(this.cuentaId);
+
     }
 }

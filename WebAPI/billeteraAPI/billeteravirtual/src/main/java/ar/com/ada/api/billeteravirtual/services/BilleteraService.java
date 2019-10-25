@@ -1,5 +1,6 @@
 package ar.com.ada.api.billeteravirtual.services;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import ar.com.ada.api.billeteravirtual.entities.Cuenta;
 import ar.com.ada.api.billeteravirtual.entities.Movimiento;
 import ar.com.ada.api.billeteravirtual.entities.Usuario;
 import ar.com.ada.api.billeteravirtual.repo.BilleteraRepository;
+import ar.com.ada.api.billeteravirtual.repo.MovimientoRepository;
 
 /**
  * BilleteraService
@@ -22,6 +24,9 @@ public class BilleteraService {
 
     @Autowired
     UsuarioService usuarioService;
+
+    @Autowired
+    MovimientoRepository movRepo;
 
     public void save(Billetera b){
         repo.save(b);
@@ -37,68 +42,42 @@ public class BilleteraService {
        return null;
     }
 
-    public double getSaldo(int id) {
-        Optional<Billetera> b = repo.findById(id);
-
-        if (b.isPresent()){
-            Cuenta c = b.get().getCuenta(0);
-          
-            return c.getSaldo();
-        }
-        return id;
-
-    }
-    public double getSaldoDisponible(int id) {
-        Optional<Billetera> b = repo.findById(id);
-
-        if (b.isPresent()){
-            Cuenta c = b.get().getCuenta(0);
-          
-            return c.getSaldoDisponible();
-        }
-        return id;
-    }
-
     public Billetera buscarBilletera(Usuario usuario){
         Billetera b=  usuario.getPersona().getBilletera();
-
         return b;
+
     }
-    
-    public void transferirDinero(double importe, int id, String conceptoDeOperacion, String tipoDeOperacion) {
 
-        Usuario usuarioDestino = usuarioService.buscarPorId(id);
-        Usuario usuarioOrigen = usuarioService.buscarPorId(id);
+    public void agregarPlata(Billetera billetera, BigDecimal plata, 
+    String moneda, String concepto, String detalle) {
+        billetera.agregarPlata(plata, moneda, concepto, detalle);
 
-        Billetera billeteraOrigen = buscarBilletera(usuarioOrigen);
+    }
 
-        Movimiento transferencia = new Movimiento();
-        transferencia.setImporte(-(importe));
-        transferencia.setDeUsuario(usuarioOrigen.getUsuarioId());
-        transferencia.setaUsuario(usuarioDestino.getUsuarioId());
-        transferencia.setCuentaDestino(usuarioDestino.getPersona().getBilletera().getBilleteraId());
-        transferencia.setCuentaOrigen(usuarioOrigen.getPersona().getBilletera().getBilleteraId());
-        transferencia.setConceptoOperacion(conceptoDeOperacion);
-        transferencia.setFecha(new Date());
-        transferencia.setEstado(0);
-        transferencia.setTipoOperacion("Transferencia");
-        
-        usuarioOrigen.getPersona().getBilletera().agregarMovimiento(transferencia);
-        repo.save(usuarioOrigen.getPersona().getBilletera());
+    public void descontarPlata(Billetera billetera, BigDecimal plata, String moneda,
+    String concepto, String detalle) {
+        billetera.descontarPlata(plata, moneda, concepto, detalle);
+    }
 
-        Movimiento recibirDinero = new Movimiento();
-        recibirDinero.setImporte(importe);
-        recibirDinero.setDeUsuario(billeteraOrigen.getPersona().getUsuario().getUsuarioId());
-        recibirDinero.setaUsuario(usuarioDestino.getUsuarioId());
-        recibirDinero.setCuentaDestino(usuarioDestino.getPersona().getBilletera().getBilleteraId());
-        recibirDinero.setCuentaOrigen(billeteraOrigen.getBilleteraId());
-        recibirDinero.setConceptoOperacion("Regalo");
-        recibirDinero.setFecha(new Date());
-        recibirDinero.setEstado(0);
-        recibirDinero.setTipoOperacion("Transferencia");
+    public void transferencia (Billetera deBilletera, String email ,BigDecimal plata, 
+    String moneda, String concepto, String detalle){
+        Billetera aBilletera;
 
-        usuarioDestino.getPersona().getBilletera().agregarMovimiento(recibirDinero);
-        repo.save(usuarioDestino.getPersona().getBilletera());
+        aBilletera = usuarioService.buscarPorEmail(email).getPersona().getBilletera();
+        deBilletera.transferencia(aBilletera, plata, moneda, concepto, detalle);
+    }
+
+    public Cuenta buscarCuentaPorMoneda(Billetera b, String moneda){
+        for (Cuenta cuenta : b.getCuentas()) {
+            if (cuenta.getMoneda().equals(moneda)) {
+                return cuenta;   
+            }
+        }
+        return null;
+    }
+
+    public List <Movimiento> buscarMovOrdenados (int billeteraId,String moneda){
+        return movRepo.FindOrderByFecha(billeteraId,moneda);
     }
 
 }

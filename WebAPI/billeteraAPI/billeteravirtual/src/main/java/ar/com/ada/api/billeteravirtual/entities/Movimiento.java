@@ -1,5 +1,6 @@
 package ar.com.ada.api.billeteravirtual.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Movimiento {
     @Column(name = "fecha_hora")
     protected Date fecha;
     //protected Coordenada ubicacion;
-    protected double importe;
+    protected BigDecimal importe;
     @Column(name = "tipo_operacion")
     protected String tipoOperacion; // -> entrada | salida
     @Column(name = "concepto_operacion")
@@ -60,11 +61,11 @@ public class Movimiento {
         this.fecha = date;
     }
 
-    public double getImporte() {
+    public BigDecimal getImporte() {
         return importe;
     }
 
-    public void setImporte(double importe) {
+    public void setImporte(BigDecimal importe) {
         this.importe = importe;
     }
 

@@ -1,9 +1,11 @@
 package ar.com.ada.api.billeteravirtual.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.billeteravirtual.repo.UsuarioRepository;
@@ -23,6 +25,9 @@ public class UsuarioService {
     @Autowired
     PersonaService personaService;
 
+    @Autowired
+    BilleteraService billeteraService;
+
     public Usuario buscarPorId(int id) {
         Optional<Usuario> u = repo.findById(id);
 
@@ -35,7 +40,15 @@ public class UsuarioService {
         return repo.findAll();
     }
 
-    public Usuario crearUsuario(String nombre, String dni, int edad, String email, String password) 
+    public Usuario buscarPorEmail(String email) {
+        return repo.findByUserEmail(email);
+    }
+
+    public Usuario buscarPorUsername(String username) {
+        return repo.findByUserName(username);
+    }
+
+    public int crearUsuario(String nombre, String dni, int edad, String email, String password)
     throws PersonaEdadException {
 
         Persona p = new Persona();
@@ -57,17 +70,29 @@ public class UsuarioService {
         u.setPassword(passwordEncriptada);
         p.setUsuario(u);
 
-        Billetera billetera = new Billetera();
+        personaService.save(p);
+
+        Billetera b = new Billetera();
+        p.setBilletera(b);
 
         Cuenta cuenta = new Cuenta();
         cuenta.setMoneda("ARS");
-        billetera.agregarCuentas(cuenta);
-        billetera.setPersona(p);
+        b.agregarCuenta(cuenta);
 
-        personaService.save(p);
+        billeteraService.save(b);
 
-        return u;
+        b.agregarPlata(new BigDecimal(100), "ARS", "Regalo", "Te regalo 100 pesitos");
 
+        return u.getUsuarioId();
+    }
+
+    public void login(String username, String password) {
+        Usuario u = repo.findByUserName(username);
+
+        if (u == null || !u.getPassword().equals(Crypto.encrypt(password, u.getUserName()))) {
+
+            throw new BadCredentialsException("Usuario o contraseña invalida");
+        }
     }
 
     public void save(Usuario usuario){
