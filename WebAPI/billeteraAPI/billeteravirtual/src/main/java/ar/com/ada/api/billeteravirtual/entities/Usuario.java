@@ -15,7 +15,7 @@ public class Usuario {
     @Column(name = "usuario_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer usuarioId;
-    private String userName;
+    private String username;
     private String password;
     @Column(name = "email")
     private String userEmail;
@@ -25,8 +25,8 @@ public class Usuario {
     @JoinColumn(name = "persona_id", referencedColumnName = "persona_id")
     private Persona persona;
 
-    public Usuario(String userName, String password, String email) {
-        this.userName = userName;
+    public Usuario(String username, String password, String email) {
+        this.username = username;
         this.password = password;
         this.userEmail = email;
     }
@@ -46,12 +46,12 @@ public class Usuario {
         this.usuarioId = usuarioId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -72,7 +72,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario [User Name=" + userName + ", Password=" + password + ", User Email=" + userEmail + "]";
+        return "Usuario [User Name=" + username + ", Password=" + password + ", User Email=" + userEmail + "]";
     }
 
     public Persona getPersona() {

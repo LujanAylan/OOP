@@ -44,11 +44,11 @@ public class Persona {
     public Persona() {
     }
 
-    public int getPesonaId() {
+    public Integer getPesonaId() {
         return pesonaId;
     }
 
-    public void setPesonaId(int pesonaId) {
+    public void setPesonaId(Integer pesonaId) {
         this.pesonaId = pesonaId;
     }
 
