@@ -1,4 +1,4 @@
-package ar.com.ada.api.billeteravirtual.security.jwt;
+package ar.com.ada.mongo.netfly.security.jwt;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ar.com.ada.api.billeteravirtual.services.JWTUserDetailsService;
+import ar.com.ada.mongo.netfly.services.JWTUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 /**
@@ -91,7 +91,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
             }
+
         }
+
         chain.doFilter(request, response);
+
     }
+
 }

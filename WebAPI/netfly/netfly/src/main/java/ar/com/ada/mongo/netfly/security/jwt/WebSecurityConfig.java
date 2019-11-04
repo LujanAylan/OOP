@@ -1,4 +1,4 @@
-package ar.com.ada.api.billeteravirtual.security.jwt;
+package ar.com.ada.mongo.netfly.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -84,4 +84,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+
 }

@@ -1,4 +1,4 @@
-package ar.com.ada.api.billeteravirtual.security.jwt;
+package ar.com.ada.mongo.netfly.security.jwt;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,4 +23,5 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 
     }
+
 }

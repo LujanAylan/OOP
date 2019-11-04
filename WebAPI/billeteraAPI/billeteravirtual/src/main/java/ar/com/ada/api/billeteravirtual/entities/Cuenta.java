@@ -23,9 +23,9 @@ public class Cuenta {
     protected int cuentaId;
 
     protected String moneda;
-    protected BigDecimal saldo;
+    protected BigDecimal saldo = new BigDecimal(0);
     @Column(name = "saldo_disponible")
-    protected BigDecimal saldoDisponible;
+    protected BigDecimal saldoDisponible = new BigDecimal(0);
     
     @JsonIgnore
     @ManyToOne

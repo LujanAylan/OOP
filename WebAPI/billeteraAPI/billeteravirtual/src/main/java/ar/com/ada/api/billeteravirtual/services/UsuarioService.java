@@ -48,7 +48,7 @@ public class UsuarioService {
     }
 
     public Usuario buscarPorUsername(String username) {
-        return repo.findByUserName(username);
+        return repo.findByUsername(username);
     }
 
     public int crearUsuario(String nombre, String dni, int edad, String email, String password)
@@ -94,8 +94,7 @@ public class UsuarioService {
     }
 
     public void login(String username, String password) {
-        Usuario u = repo.findByUserName(username);
-
+        Usuario u = repo.findByUsername(username);
         if (u == null || !u.getPassword().equals(Crypto.encrypt(password, u.getUsername()))) {
 
             throw new BadCredentialsException("Usuario o contraseña invalida");
